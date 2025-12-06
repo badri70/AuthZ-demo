@@ -75,6 +75,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'core.authentication.CustomJWTAuthentication',
+    ),
+
+}
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
