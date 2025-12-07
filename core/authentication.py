@@ -1,7 +1,7 @@
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework import authentication
 from rest_framework.exceptions import AuthenticationFailed
-from django.contrib.auth.models import User
+from accounts.models import User
 from core.utils import decode_jwt
 
 

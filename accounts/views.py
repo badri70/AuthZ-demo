@@ -2,7 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
-from django.contrib.auth.models import User
+from .models import User
 from django.contrib.auth import authenticate
 from core.utils import generate_jwt
 from .serializers import (
@@ -11,6 +11,7 @@ from .serializers import (
     ProfileUpdateSerializer,
     ChangePasswordSerializer,
 )
+from .permissions import IsAdmin, IsModerator
 
 
 # Create your views here.
@@ -53,7 +54,7 @@ class LoginView(APIView):
     
 
 class ProfileUpdateView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsModerator]
 
     def put(self, request):
         serializer = ProfileUpdateSerializer(data=request.data)
@@ -81,7 +82,7 @@ class ProfileUpdateView(APIView):
     
 
 class ChangePasswordView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsModerator]
 
     def post(self, request):
         serializer = ChangePasswordSerializer(data=request.data)
@@ -119,3 +120,15 @@ class LogoutView(APIView):
 
     def post(self, request):
         return Response({"message": "Logged out successfully"}, status=status.HTTP_200_OK)
+    
+
+class UsersListView(APIView):
+    permission_classes = [IsModerator, IsModerator]
+
+    def get(self, request):
+        data = [
+        {"id": 1, "name": "John"},
+        {"id": 2, "name": "Anna"},
+        {"id": 3, "name": "Mary"},
+    ]
+        return Response(data)
