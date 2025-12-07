@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import password_validation
+from .models import User
 
 
 class RegisterSerializer(serializers.Serializer):
@@ -30,3 +31,16 @@ class ChangePasswordSerializer(serializers.Serializer):
 
 class ProfileDeleteSerializer(serializers.Serializer):
     confirm = serializers.BooleanField()
+
+
+class UserRoleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ("role",)
+        extra_kwargs = {
+            "role": {"required": True}
+        }
+
+
+class UserRestoreSerializer(serializers.Serializer):
+    email = serializers.EmailField()

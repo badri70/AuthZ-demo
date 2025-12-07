@@ -10,6 +10,8 @@ from .serializers import (
     LoginSerializer,
     ProfileUpdateSerializer,
     ChangePasswordSerializer,
+    UserRoleSerializer,
+    UserRestoreSerializer,
 )
 from .permissions import IsAdmin, IsModerator
 
@@ -113,6 +115,29 @@ class ProfileDeleteView(APIView):
         user.is_active = False
         user.save()
         return Response({"message": "Profile deleted successfully"}, status=status.HTTP_200_OK)
+    
+
+class RestoreProfileView(APIView):
+    permission_classes = [IsModerator]
+
+    def post(self, request):
+        serializer = UserRestoreSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        email = serializer.validated_data["email"]
+
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            return Response(
+                {"error": "User with this email does not exist"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        user.is_active = True
+        user.save()
+
+        return Response({"message": "Profile restored successfully"}, status=status.HTTP_200_OK)
 
 
 class LogoutView(APIView):
@@ -123,7 +148,7 @@ class LogoutView(APIView):
     
 
 class UsersListView(APIView):
-    permission_classes = [IsModerator, IsModerator]
+    permission_classes = [IsModerator]
 
     def get(self, request):
         data = [
@@ -132,3 +157,20 @@ class UsersListView(APIView):
         {"id": 3, "name": "Mary"},
     ]
         return Response(data)
+
+
+class UserRoleUpdateView(APIView):
+    permission_classes = [IsAdmin]
+
+    def patch(self, request, user_id):
+        try:
+            user = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            return Response({"error": "User not found"}, status=404)
+
+        serializer = UserRoleSerializer(user, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "Role updated successfully"})
+        
+        return Response(serializer.errors, status=400)
