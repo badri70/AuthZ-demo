@@ -1,16 +1,36 @@
 #!/bin/sh
 
 echo "Waiting for Postgres to be ready..."
-until nc -z $POSTGRES_HOST $POSTGRES_PORT; do
-  sleep 1
+while ! nc -z db 5432; do
+  sleep 0.5
 done
 echo "Postgres is ready!"
 
 echo "Applying migrations..."
-poetry run python manage.py migrate --noinput
+python manage.py migrate --noinput
+
+echo "Checking if users already exist..."
+USER_COUNT=$(python - <<EOF
+import os
+import django
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "core.settings")
+django.setup()
+
+from accounts.models import User
+print(User.objects.count())
+EOF
+)
+
+if [ "$USER_COUNT" = "0" ]; then
+    echo "No users found. Loading fixtures..."
+    python manage.py loaddata users.json
+else
+    echo "Users already exist. Skipping fixture load."
+fi
 
 echo "Collecting static files..."
-poetry run python manage.py collectstatic --noinput
+python manage.py collectstatic --noinput
 
 echo "Starting server..."
-exec "$@"
+gunicorn core.wsgi:application --bind 0.0.0.0:8000

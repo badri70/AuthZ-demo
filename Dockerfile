@@ -1,16 +1,15 @@
-# ---- Base image ----
-FROM python:3.12-slim
+FROM python:3.13-slim
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         build-essential \
         curl \
         libpq-dev \
+        netcat-traditional \
     && rm -rf /var/lib/apt/lists/*
 
 ENV POETRY_VERSION=1.8.2
 RUN curl -sSL https://install.python-poetry.org | python3 -
-
 ENV PATH="/root/.local/bin:$PATH"
 
 WORKDIR /app

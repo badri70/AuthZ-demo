@@ -1,0 +1,90 @@
+[
+  {
+    "model": "accounts.user",
+    "pk": 1,
+    "fields": {
+      "username": "admin@example.com",
+      "email": "admin@example.com",
+      "first_name": "Admin User",
+      "password": "pbkdf2_sha256$600000$testhashadmin$Z1addyJ9fYIuWcx7aD3Xg28Y7NmBGG99HCaTKty+O+k=",
+      "role": "admin",
+      "is_superuser": true,
+      "is_staff": true,
+      "is_active": true
+    }
+  },
+
+  {
+    "model": "accounts.user",
+    "pk": 2,
+    "fields": {
+      "username": "mod1@example.com",
+      "email": "mod1@example.com",
+      "first_name": "Moderator One",
+      "password": "pbkdf2_sha256$600000$testhashadmin$Z1addyJ9fYIuWcx7aD3Xg28Y7NmBGG99HCaTKty+O+k=",
+      "role": "moderator",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "accounts.user",
+    "pk": 3,
+    "fields": {
+      "username": "mod2@example.com",
+      "email": "mod2@example.com",
+      "first_name": "Moderator Two",
+      "password": "pbkdf2_sha256$600000$testhashadmin$Z1addyJ9fYIuWcx7aD3Xg28Y7NmBGG99HCaTKty+O+k=",
+      "role": "moderator",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true
+    }
+  },
+
+  {
+    "model": "accounts.user",
+    "pk": 4,
+    "fields": {
+      "username": "user1@example.com",
+      "email": "user1@example.com",
+      "first_name": "User One",
+      "password": "pbkdf2_sha256$600000$testhashadmin$Z1addyJ9fYIuWcx7aD3Xg28Y7NmBGG99HCaTKty+O+k=",
+      "role": "user",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true
+    }
+  },
+
+  {
+    "model": "accounts.user",
+    "pk": 5,
+    "fields": {
+      "username": "user2@example.com",
+      "email": "user2@example.com",
+      "first_name": "User Two",
+      "password": "pbkdf2_sha256$600000$testhashadmin$Z1addyJ9fYIuWcx7aD3Xg28Y7NmBGG99HCaTKty+O+k=",
+      "role": "user",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true
+    }
+  },
+
+  {
+    "model": "accounts.user",
+    "pk": 6,
+    "fields": {
+      "username": "user3@example.com",
+      "email": "user3@example.com",
+      "first_name": "User Three",
+      "password": "pbkdf2_sha256$600000$testhashadmin$Z1addyJ9fYIuWcx7aD3Xg28Y7NmBGG99HCaTKty+O+k=",
+      "role": "user",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true
+    }
+  }
+]
